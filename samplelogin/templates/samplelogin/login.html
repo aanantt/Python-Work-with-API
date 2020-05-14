@@ -1,0 +1,19 @@
+{% extends 'post/layout.html' %}
+{% block body%}
+{% load static%}
+{% load widget_tweaks %}
+<div class="row">
+    <div class="w-50 mx-auto">
+<form class="form-inline mt-2 mt-md-0" method="POST">
+    {% csrf_token %}
+    <fieldset>
+        {% render_field form.username placeholder=form.username.label class+="ml-2 form-control mr-sm-2 m-2" %}
+        <br>
+        {% render_field form.password placeholder=form.password.label class+="ml-2 form-control mr-sm-2 m-2" %}
+        <br>
+        <button class="btn btn-success ml-2 m-2" type="submit">Create</button>
+    </fieldset>
+ </form>
+    </div>
+</div>
+{% endblock%}

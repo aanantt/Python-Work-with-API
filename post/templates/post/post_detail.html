@@ -1,0 +1,35 @@
+{% extends 'post/layout.html' %}
+{% block body%}
+{% load static%}
+<div class="card ml-1">
+    <div class="card-body">
+        <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{object.post_image.url}}"
+                 style="width: 150px; height: 150px;">
+            <div class="media-body ml-4">
+                <div class="article-metadata">
+              <a href="{% url 'userhome' object.author.id %}">      <small class="text-muted">{{object.author}}</small></a>
+                </div>
+                <h2><a class="article-title" href="#">{{object.title}}</a></h2>
+                <div class="row">
+                    <p class="textoverflow ml-2">{{object.content}}</p>
+                </div>
+                <div>
+                 <a href="{% url 'like-disliked' object.id%}"><i id="heart" class="fas fa-heart" style="cursor: pointer; color=white; text-decoration=None;">{{object.likes.count}}</i></a>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+<form class="form-inline mr-2 " action="{% url 'post-comment' object.id%}" method="POST">
+    {% csrf_token %}
+    <input class="form-control ml-2" type="text" name="comment" placeholder="Add Comments">
+    <input class="btn btn-outline-success my-2 my-sm-0 mr-2 " type="submit" value="Submit">
+</form>
+{% for i in comments%}
+<label>{{i.user}}</label>
+<h5>{{i.body}}</h5>
+{% endfor %}
+{% endblock%}
+
+
