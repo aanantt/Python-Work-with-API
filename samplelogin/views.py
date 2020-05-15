@@ -16,60 +16,7 @@ from rest_framework.views import APIView
 from .forms import UserRegistrationForm, UserProfileForm
 from .models import UserProfile, File
 from .serializers import UserSerializer, ChangePasswordSerializer, FileSerializers
-
-
-def userr(request):
-    user = User.objects.get(id=request.user.id)
-    profile = UserProfile.objects.get(user=user)
-    post = Post.objects.filter(author=request.user)
-    context = {
-        'user': user,
-        'profile': profile,
-        'post': post,
-    }
-    return render(request, 'samplelogin/userpage.html', context)
-
-
-def register(request):
-    if request.method == 'POST':
-        forms = UserRegistrationForm(request.POST)
-        if forms.is_valid():
-            forms.save()
-            user1 = User.objects.get(username=forms.cleaned_data['username'])
-            data = UserProfile(user=user1)
-            data.save()
-            return redirect('home')
-        else:
-            return HttpResponse("<h1>ERROR</h1>")
-    if request.method == 'GET':
-        form = UserRegistrationForm()
-    return render(request, 'samplelogin/signup.html', {'form': form})
-
-
-def userhome(request, user_id):
-    user1 = u.objects.get(id=user_id)
-    current_user = request.user
-    post = Post.objects.filter(author=user1)
-    profile = UserProfile.objects.filter(user=current_user)
-    context = {
-        "user": user1,
-        "post": post,
-        "profile": profile
-    }
-    return render(request, 'samplelogin/userpage.html', context)
-
-
-def image(request):
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES)
-        if form.is_valid():
-            print("valid")
-            data = UserProfile(user=request.user, avatar=form.cleaned_data["avatar"])
-            data.save()
-            return redirect("home")
-    elif request.method == "GET":
-        form = UserProfileForm()
-    return render(request, "samplelogin/image.html", {'form': form})
+from post.serializer import PostSerializers
 
 
 class UserCreateAPIView(generics.CreateAPIView):
@@ -109,36 +56,6 @@ class UpdatePassword(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-#
-# @api_view(["PUT", "POST", "DELETE", "GET"])
-# @parser_classes([MultiPartParser])
-# @permission_classes([IsAuthenticated])
-# def ProfileDP(request, format=None):
-#     if request.method == "PUT":
-#         if 'file' not in request.data:
-#             raise Response(status=status.HTTP_204_NO_CONTENT)
-#         f = request.data['file']
-#         file1 = File.objects.get(user=request.user)
-#         file1.file = f
-#         file1.save()
-#         return Response(status=status.HTTP_201_CREATED)
-#     elif request.method == "POST":
-#         if 'file' not in request.data:
-#             raise Response(status=status.HTTP_204_NO_CONTENT)
-#         f = request.data['file']
-#         file1 = File(user=request.user, file=f)
-#         file1.save()
-#         return Response(status=status.HTTP_201_CREATED)
-#     elif request.method == "DELETE":
-#         file = File.objects.get(user=request.user)
-#         file.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
-#     elif request.method == "GET":
-#         file = File.objects.get(user=request.user)
-#         serial = FileSerializers(file)
-#         return Response(serial.data, status=status.HTTP_200_OK)
-
-
 class UserProfile(APIView):
     permission_classes = ([IsAuthenticated])
     parser_classes = ([MultiPartParser])
@@ -175,3 +92,20 @@ class UserProfile(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         file.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserPost(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            posts = self.request.user.posts
+        except:
+            Response({"error": "Data not found"}, status=status.HTTP_204_NO_CONTENT)
+
+        serial = PostSerializers(posts, many=True)
+        return Response(serial.data, status=status.HTTP_200_OK)
+
+
+def home(request):
+    return HttpResponse("<h1>Work with APIs</h1><br><h3>in process</h3>")

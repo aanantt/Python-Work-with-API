@@ -28,6 +28,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 REST_FRAMEWORK = {
+    'DATETIME_FORMAT': '%s000',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],

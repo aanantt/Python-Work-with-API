@@ -15,5 +15,5 @@ class UserProfile(models.Model):
 
 
 class File(models.Model):
-    user = models.OneToOneField(u, on_delete=models.CASCADE, default="/home/anant/PycharmProjects/Django_try/Django/user.jpeg")
+    user = models.OneToOneField(u, on_delete=models.CASCADE, default="userprofile/user.jpeg")
     file = models.FileField(blank=False, null=False)

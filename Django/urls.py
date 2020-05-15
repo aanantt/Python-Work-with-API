@@ -24,27 +24,18 @@ from samplelogin import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('signup/', user_views.register, name='signup'),
+    path('', user_views.home),
     path('api/image/', user_views.UserProfile().as_view(), name='image'),
     path('api/signup/', user_views.UserCreateAPIView().as_view(), name='signup-api'),
     path('api/user/<int:pk>/', user_views.UserUpdateAPIView().as_view(), name='user-api'),
     path('api/token/', TokenObtainPairView.as_view(), name='token'),
     path('api/refresh/', TokenRefreshView.as_view(), name='refresh'),
-    path('api/', post_views.ArticleList.as_view(), name='api'),
+    path('api/', post_views.ArticleList().as_view(), name='api'),
+    path('api/current/', user_views.UserPost().as_view(), name='curr-post'),
     path('api/comment/<int:pk>/', post_views.comment, name='api-comment-get'),
     path('api/comment/update/<int:ci>/', post_views.comment_update, name='api-comment-get'),
-    path('user/<int:user_id>/', user_views.userhome, name='userhome'),
-    path('user/profile/', user_views.image, name='userimage'),
-    path('login/', auth_views.LoginView.as_view(template_name='samplelogin/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(template_name='samplelogin/logout.html'), name='logout'),
-    path('', post_views.PostListView.as_view(), name="home"),
     path('post/like/<int:post_id>/', post_views.like_disliked, name="like-disliked"),
-    path('detail/<int:post_id>/', post_views.detail_view, name="post-detail"),
-    path('search/', post_views.search, name="post-search"),
-    path('post/new/', post_views.PostCreateView.as_view(), name="post-create"),
-    path('post/comment/delete/<int:pk>/<int:c>', post_views.delete_comment, name="comment-delete"),
-    path('post/comment/<int:post_id>/', post_views.addcomment, name="post-comment"),
-    path('user/', user_views.userr, name="current-user"),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

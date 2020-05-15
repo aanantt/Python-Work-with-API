@@ -6,38 +6,15 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, ListView
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, status, serializers
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .models import Post, PostComment
-from .serializer import PostSerializers, CommentSerializer
-
-
-class PostListView(ListView):
-    model = Post
-    context_object_name = 'post'
-    ordering = ['-date_posted']
-
-
-# https://naughty18.herokuapp.com/invite/5
-
-class PostCreateView(LoginRequiredMixin, CreateView):
-    model = Post
-    fields = ['title', 'content', "post_image"]
-
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
-
-
-@login_required
-def detail_view(request, post_id):
-    post = Post.objects.get(id=post_id)
-    comments = post.comments.all()
-    return render(request, "post/post_detail.html", {'object': post, 'comments': comments})
+from .models import Post, PostComment, Author
+from .serializer import PostSerializers, CommentSerializer, RandomSerializer
 
 
 @login_required
@@ -53,44 +30,9 @@ def like_disliked(request, post_id):
     return HttpResponseRedirect(url)
 
 
-@login_required
-def addcomment(request, post_id):
-    if request.method == "POST":
-        comment = request.POST.get("comment")
-        post = Post.objects.get(id=post_id)
-        postcomment = PostComment(body=str(comment), post=post, user=request.user)
-        postcomment.save()
-
-    url = reverse("post-detail", kwargs={"post_id": post_id})
-    return HttpResponseRedirect(url)
-
-
-@login_required
-def delete_comment(request, pk, c):
-    comment = PostComment.objects.get(id=c)
-    comment.delete()
-    url = reverse("post-detail", kwargs={"post_id": pk})
-    return HttpResponseRedirect(url)
-
-
-@login_required
-def search(request):
-    if request.method == "POST":
-        if request.POST.get("search"):
-            data = request.POST.get("search")
-            post = Post.objects.filter(title__icontains=data)
-            user = User.objects.filter(username__icontains=data)
-            context = {
-                'post': post,
-                'user_list': user,
-            }
-            return render(request, 'post/search.html', context)
-
-
 class ArticleList(generics.ListCreateAPIView):
-    queryset = PostComment.objects.all()
-    permission_classes = [IsAuthenticated]
-    serializer_class = CommentSerializer
+    queryset = Post.objects.all()
+    serializer_class = PostSerializers
 
 
 # operations with id
@@ -143,4 +85,5 @@ def like_dislike_api(request, pk):
             post.likes.add(user)
         return Response(status=status.HTTP_200_OK)
     return Response(status=status.HTTP_403_FORBIDDEN)
+
 
