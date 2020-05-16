@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import UserProfile, File
-from .serializers import UserSerializer, ChangePasswordSerializer, FileSerializers
+from .serializers import UserSerializer, ChangePasswordSerializer, FileSerializers, CurrentUserSerializers
 from post.serializer import PostSerializers
 
 
@@ -99,6 +99,15 @@ class UserPost(APIView):
             Response({"error": "Data not found"}, status=status.HTTP_204_NO_CONTENT)
 
         serial = PostSerializers(posts, many=True)
+        return Response(serial.data, status=status.HTTP_200_OK)
+
+
+class CurrentUserDetail(APIView):
+    permission_required = IsAuthenticated
+
+    def get(self, request):
+        user = User.objects.get(username=request.user.username)
+        serial = CurrentUserSerializers(user)
         return Response(serial.data, status=status.HTTP_200_OK)
 
 

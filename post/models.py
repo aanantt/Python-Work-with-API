@@ -6,17 +6,18 @@ from django.utils import timezone
 
 
 class Post(models.Model):
-    text = models.CharField(max_length=250)
-    post_image = models.FileField(upload_to='postimages/', blank=True)
+    text = models.CharField(max_length=250, blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts", blank=True)
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likes', blank=True)
 
-    def __str__(self):
-        return self.text
+    # def save(self, *args, **kwargs):
+    #     super(Post, self).save(*args, **kwargs)
 
-    def get_absolute_url(self):
-        return reverse('home')
+
+class PostImage(models.Model):
+    post = models.ForeignKey(Post, related_name='images', on_delete=models.CASCADE)
+    files = models.FileField(upload_to='postimages/', blank=True)
 
 
 class PostComment(models.Model):

@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from rest_framework.fields import CurrentUserDefault
 
-from .models import Post, PostComment
+from .models import Post, PostComment, PostImage
+
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
@@ -16,14 +17,16 @@ class CommentSerializer(serializers.ModelSerializer):
         return super().save(**kwargs)
 
 
-class PostSerializers(serializers.ModelSerializer):
+class PostImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostImage
+        fields = "__all__"
+
+
+class PostSerializers(serializers.HyperlinkedModelSerializer):
     author = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
+    files = PostImageSerializer(source='postimage_set', many=True, read_only=True)
 
     class Meta:
         model = Post
-        fields = '__all__'
-
-    def save(self, **kwargs):
-        kwargs["author"] = self.fields["author"].get_default()
-        return super().save(**kwargs)
-
+        fields = ('id', 'text', 'author', 'likes', 'date_posted', 'files')

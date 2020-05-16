@@ -30,9 +30,13 @@ urlpatterns = [
     path('api/user/<int:pk>/', user_views.UserUpdateAPIView().as_view(), name='user-update-api'),
     path('api/token/', TokenObtainPairView().as_view(), name='token'),
     path('api/token/refresh/', TokenRefreshView().as_view(), name='token-refresh'),
-    path('api/', post_views.ArticleList().as_view(), name='api'),
+    path('api/', post_views.PostList().as_view(), name='api'),
+    path('api/user/', user_views.CurrentUserDetail().as_view(), name='api-user'),
+    path('api/postrud/<int:pk>/', post_views.PostRUD().as_view(), name='api'),
+    path('api/post/image/<int:pk>/', post_views.PostImageList().as_view(), name='api-post-image'),
+    path('api/upload/', post_views.PostCreate().as_view(), name='api'),
     path('api/current-user/posts', user_views.UserPost().as_view(), name='current-user-post'),
-    path('api/comment/update/<int:pk>/', post_views.Comments().as_view(), name='api-comment-get'),
+    path('api/comment/update/<int:id>/', post_views.Comments().as_view(), name='api-comment-get'),
     path('api/like/<int:post_id>/', post_views.like_disliked, name="like-disliked"),
 
 ]

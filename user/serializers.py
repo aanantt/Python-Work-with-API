@@ -35,3 +35,9 @@ class FileSerializers(serializers.ModelSerializer):
     class Meta:
         model = File
         fields = "__all__"
+
+
+class CurrentUserSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"

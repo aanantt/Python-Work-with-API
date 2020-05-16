@@ -1,12 +1,15 @@
 from django.contrib.auth.decorators import login_required, permission_required
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics, permissions, status, serializers
+from rest_framework.decorators import api_view
 from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 
-from .models import Post, PostComment
-from .serializer import PostSerializers, CommentSerializer
+from .models import Post, PostComment, PostImage
+from .serializer import PostSerializers, CommentSerializer, PostImageSerializer
 
 
 @permission_required([IsAuthenticated])
@@ -19,21 +22,6 @@ def like_disliked(request, post_id):
         return Response("{'message':'Like Removed'}", status=status.HTTP_200_OK)
     post.likes.add(user)
     return Response("{'message':'Liked'}", status=status.HTTP_200_OK)
-
-
-class ArticleList(generics.ListCreateAPIView):
-    permission_required = AllowAny
-    parser_classes = [MultiPartParser, FormParser,JSONParser]
-    queryset = Post.objects.all()
-    serializer_class = PostSerializers
-
-
-# operations with id
-class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_required = IsAuthenticated
-    parser_classes = [MultiPartParser, FormParser, JSONParser]
-    queryset = Post.objects.all()
-    serializer_class = PostSerializers
 
 
 class Comments(APIView):
@@ -57,18 +45,38 @@ class Comments(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class Posts(APIView):
+class PostCreate(APIView):
     permission_required = IsAuthenticated
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def post(self, request):
-        pass
+        images = dict(request.data.lists())["post_image"]
+        task = Post.objects.create(text=request.data['text'], author=request.user)
+        for image_data in images:
+            PostImage.objects.create(post=task, files=image_data)
+        else:
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request):
-        pass
 
-    def put(self, request, pk):
-        pass
+class PostList(generics.ListAPIView):
+    permission_required = IsAuthenticated
+    queryset = Post.objects.all()
+    serializer_class = PostSerializers
 
-    def delete(self, request, pk):
-        pass
+
+class PostRUD(generics.RetrieveUpdateDestroyAPIView):
+    permission_required = IsAuthenticated
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+    queryset = Post.objects.all()
+    serializer_class = PostSerializers
+
+
+class PostImageList(APIView):
+    permission_required = IsAuthenticated
+
+    def get(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        images = post.images.all()
+        serial = PostImageSerializer(images, many=True)
+        return Response(serial.data, status=status.HTTP_200_OK)
