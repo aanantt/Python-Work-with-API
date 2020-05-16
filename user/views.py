@@ -1,36 +1,31 @@
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User as u, User
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
-from django.urls import reverse
-from post.models import Post
 from rest_framework import generics, status, permissions
-from rest_framework.decorators import parser_classes, api_view, permission_classes
-from rest_framework.exceptions import ParseError
-from rest_framework.generics import UpdateAPIView
 from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from .forms import UserRegistrationForm, UserProfileForm
 from .models import UserProfile, File
 from .serializers import UserSerializer, ChangePasswordSerializer, FileSerializers
 from post.serializer import PostSerializers
 
 
+# for signup
 class UserCreateAPIView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (AllowAny,)
 
 
+# for updating user's username
 class UserUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (AllowAny,)
 
 
+# for updating user's password
 class UpdatePassword(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -42,12 +37,10 @@ class UpdatePassword(APIView):
         serializer = ChangePasswordSerializer(data=request.data)
 
         if serializer.is_valid():
-            # Check old password
             old_password = serializer.data.get("old_password")
             if not self.object.check_password(old_password):
                 return Response({"old_password": ["Wrong password."]},
                                 status=status.HTTP_400_BAD_REQUEST)
-            # set_password also hashes the password that the user will get
             self.object.set_password(serializer.data.get("new_password"))
             self.object.save()
             update_session_auth_hash(request, self.object)
@@ -56,6 +49,7 @@ class UpdatePassword(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# image based work
 class UserProfile(APIView):
     permission_classes = ([IsAuthenticated])
     parser_classes = ([MultiPartParser])
@@ -94,6 +88,7 @@ class UserProfile(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# current user's post
 class UserPost(APIView):
     permission_classes = [IsAuthenticated]
 

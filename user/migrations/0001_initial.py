@@ -29,8 +29,8 @@ class Migration(migrations.Migration):
                 ('password', models.CharField(max_length=128, verbose_name='password')),
                 ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
                 ('name', models.CharField(max_length=200)),
-                ('followers', models.ManyToManyField(blank=True, related_name='_user_followers_+', to='samplelogin.User')),
-                ('following', models.ManyToManyField(blank=True, related_name='_user_following_+', to='samplelogin.User')),
+                ('followers', models.ManyToManyField(blank=True, related_name='_user_followers_+', to='user.User')),
+                ('following', models.ManyToManyField(blank=True, related_name='_user_following_+', to='user.User')),
             ],
             options={
                 'abstract': False,

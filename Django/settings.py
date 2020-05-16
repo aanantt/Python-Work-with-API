@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'widget_tweaks',
     'rest_framework',
-    'samplelogin.apps.SampleloginConfig',
+    'user.apps.SampleloginConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

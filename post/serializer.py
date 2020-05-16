@@ -1,8 +1,7 @@
 from rest_framework import serializers
 from rest_framework.fields import CurrentUserDefault
 
-from .models import Post, PostComment, Author
-
+from .models import Post, PostComment
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())

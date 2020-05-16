@@ -20,21 +20,20 @@ from django.contrib.auth import views as auth_views
 from django.urls import path
 from post import views as post_views
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from samplelogin import views as user_views
+from user import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', user_views.home),
     path('api/image/', user_views.UserProfile().as_view(), name='image'),
     path('api/signup/', user_views.UserCreateAPIView().as_view(), name='signup-api'),
-    path('api/user/<int:pk>/', user_views.UserUpdateAPIView().as_view(), name='user-api'),
-    path('api/token/', TokenObtainPairView.as_view(), name='token'),
-    path('api/refresh/', TokenRefreshView.as_view(), name='refresh'),
+    path('api/user/<int:pk>/', user_views.UserUpdateAPIView().as_view(), name='user-update-api'),
+    path('api/token/', TokenObtainPairView().as_view(), name='token'),
+    path('api/token/refresh/', TokenRefreshView().as_view(), name='token-refresh'),
     path('api/', post_views.ArticleList().as_view(), name='api'),
-    path('api/current/', user_views.UserPost().as_view(), name='curr-post'),
-    path('api/comment/<int:pk>/', post_views.comment, name='api-comment-get'),
-    path('api/comment/update/<int:ci>/', post_views.comment_update, name='api-comment-get'),
-    path('post/like/<int:post_id>/', post_views.like_disliked, name="like-disliked"),
+    path('api/current-user/posts', user_views.UserPost().as_view(), name='current-user-post'),
+    path('api/comment/update/<int:pk>/', post_views.Comments().as_view(), name='api-comment-get'),
+    path('api/like/<int:post_id>/', post_views.like_disliked, name="like-disliked"),
 
 ]
 if settings.DEBUG:
