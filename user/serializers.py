@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.fields import CurrentUserDefault
 
-from .models import UserProfile, File
+from .models import UserProfile, File, Follower
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -41,3 +41,9 @@ class CurrentUserSerializers(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
+
+
+class FollowingList(serializers.ModelSerializer):
+    class Meta:
+        model = Follower
+        fields = '__all__'

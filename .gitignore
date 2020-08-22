@@ -1,3 +1,7 @@
-# Project exclude paths
-/venv/
-
+venv
+*.pyc
+staticfiles
+.env
+db.sqlite3
+dump.json
+getting-started/*

@@ -25,7 +25,7 @@ from user import views as user_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', user_views.home),
-    path('api/user/profile/image/', user_views.UserProfile().as_view(), name='image'),
+    path('api/user/profile/image/', user_views.UserProfilePicture().as_view(), name='image'),
     path('api/user/signup/', user_views.UserCreateAPIView().as_view(), name='signup-api'),
     path('api/user/update/<int:pk>/', user_views.UserUpdateAPIView().as_view(), name='user-update-api'),
     path('api/token/', TokenObtainPairView().as_view(), name='token'),
@@ -35,7 +35,10 @@ urlpatterns = [
     path('api/post/rud/<int:pk>/', post_views.PostRUD().as_view(), name='api'),
     path('api/post/images/<int:pk>/', post_views.PostImageList().as_view(), name='api-post-image'),
     path('api/post/create/', post_views.PostCreate().as_view(), name='api'),
-    path('api/current/user/posts', user_views.UserPost().as_view(), name='current-user-post'),
+    path('api/current/user/posts', user_views.UserPostList().as_view(), name='current-user-post'),
+    path('api/follow/<int:pk>/', user_views.followingfollow, name='following'),
+    path('api/followinglist/', user_views.followinglist, name='followinglist'),
+    path('api/followerlist/', user_views.followerlist, name='followerlist'),
     path('api/comment/<int:id>/', post_views.Comments().as_view(), name='api-comment-get'),
     path('api/post/like/<int:post_id>/', post_views.like_disliked, name="like-disliked"),
 

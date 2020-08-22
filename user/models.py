@@ -3,11 +3,6 @@ from django.contrib.auth.models import User as u
 from django.db import models
 
 
-class User(AbstractBaseUser):
-    followers = models.ManyToManyField('self', related_name='follower', blank=True)
-    following = models.ManyToManyField('self', related_name='following', blank=True)
-    name = models.CharField(max_length=200)
-
 
 class UserProfile(models.Model):
     user = models.OneToOneField(u, on_delete=models.CASCADE)
@@ -17,3 +12,14 @@ class UserProfile(models.Model):
 class File(models.Model):
     user = models.OneToOneField(u, on_delete=models.CASCADE, default="userprofile/user.jpeg")
     file = models.FileField(blank=False, null=False)
+
+
+class Follower(models.Model):
+    follower = models.ForeignKey(u, related_name='following',on_delete=models.CASCADE)
+    following = models.ForeignKey(u, related_name='followers',on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('follower', 'following')
+
+    def __unicode__(self):
+        return u'%s follows %s' % (self.follower, self.following)

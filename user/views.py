@@ -1,13 +1,17 @@
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User as u, User
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from rest_framework import generics, status, permissions
+from rest_framework.decorators import api_view
+from django.core import serializers
 from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import UserProfile, File
-from .serializers import UserSerializer, ChangePasswordSerializer, FileSerializers, CurrentUserSerializers
+from .models import UserProfile, File, Follower
+from .serializers import UserSerializer, ChangePasswordSerializer, FileSerializers, CurrentUserSerializers, \
+    FollowingList
 from post.serializer import PostSerializers
 
 
@@ -50,7 +54,7 @@ class UpdatePassword(APIView):
 
 
 # image based work
-class UserProfile(APIView):
+class UserProfilePicture(APIView):
     permission_classes = ([IsAuthenticated])
     parser_classes = ([MultiPartParser])
 
@@ -89,7 +93,7 @@ class UserProfile(APIView):
 
 
 # current user's post
-class UserPost(APIView):
+class UserPostList(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -109,6 +113,43 @@ class CurrentUserDetail(APIView):
         user = User.objects.get(username=request.user.username)
         serial = CurrentUserSerializers(user)
         return Response(serial.data, status=status.HTTP_200_OK)
+
+
+#
+@api_view(['POST', 'PUT'])
+# @permission_required([IsAuthenticated])
+def followingfollow(request, pk):
+    CurrentUser = User.objects.get(id=request.user.id)
+    user = User.objects.get(id=pk)
+    s = Follower.objects.create(following=user, follower=CurrentUser)
+    CurrentUser.following.add(s)
+    return Response(status=status.HTTP_201_CREATED)
+
+
+@api_view(["GET"])
+def followinglist(request):
+    s = request.user.following.all().values()
+    print(list(s))
+    l = []
+    for i in list(s):
+        print(i["following_id"])
+        l.append(i["following_id"])
+    return JsonResponse({
+        'following': l
+    })
+
+
+@api_view(["GET"])
+def followerlist(request):
+    s = request.user.followers.all().values()
+    print(list(s))
+    l = []
+    for i in list(s):
+        print(i["follower_id"])
+        l.append(i["follower_id"])
+    return JsonResponse({
+        'followers': l
+    })
 
 
 def home(request):
