@@ -153,4 +153,6 @@ def followerlist(request):
 
 
 def home(request):
-    return HttpResponse("<h1>Work with APIs</h1><br><h3>in process</h3>")
+    user = User.objects.get(id=1)
+    print(user)
+    return HttpResponse("<h1>Work with APIs{{user}}</h1><br><h3>in process</h3>")
