@@ -2,6 +2,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User as u, User
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.shortcuts import render
 from rest_framework import generics, status, permissions
 from rest_framework.decorators import api_view
 from django.core import serializers
@@ -155,4 +156,4 @@ def followerlist(request):
 def home(request):
     user = User.objects.get(id=1)
     print(user)
-    return HttpResponse("<h1>Work with APIs{{user}}</h1><br><h3>in process</h3>")
+    return render(request, "user/home.html", {'user': user})

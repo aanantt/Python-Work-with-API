@@ -26,7 +26,10 @@ SECRET_KEY = 'u!ndu2%l@yrb%)1!+5yq-w2=aj@d0#%#an)i272yqqh)3et&&x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'workwithapi.herokuapp.com',
+    '127.0.0.1'
+]
 
 # Application definition
 REST_FRAMEWORK = {
