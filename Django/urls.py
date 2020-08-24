@@ -25,6 +25,7 @@ from user import views as user_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', user_views.home),
+    path('api/check/', user_views.checkAPI, name="check"),
     path('api/user/profile/image/', user_views.UserProfilePicture().as_view(), name='image'),
     path('api/user/signup/', user_views.UserCreateAPIView().as_view(), name='signup-api'),
     path('api/user/update/<int:pk>/', user_views.UserUpdateAPIView().as_view(), name='user-update-api'),

@@ -10,9 +10,9 @@ from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import UserProfile, File, Follower
+from .models import UserProfile, File, Follower, Check
 from .serializers import UserSerializer, ChangePasswordSerializer, FileSerializers, CurrentUserSerializers, \
-    FollowingList
+    FollowingList, CheckSeial
 from post.serializer import PostSerializers
 
 
@@ -153,7 +153,17 @@ def followerlist(request):
     })
 
 
+@api_view(["GET"])
+def checkAPI(request):
+    Check.objects.create(name="Anant", phone="1234567890", )
+    check = Check.objects.all()
+    serial = CheckSeial(check, many=True)
+    if serial:
+        return Response(serial.data, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 def home(request):
-    user = User.objects.get(id=1)
+    user = User.objects.get(id=2)
     print(user)
     return render(request, "user/home.html", {'user': user})
