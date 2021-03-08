@@ -44,7 +44,7 @@ REST_FRAMEWORK = {
 INSTALLED_APPS = [
     'post.apps.PostConfig',
     'django.contrib.admin',
-    'widget_tweaks',
+  #  'widget_tweaks',
     'rest_framework',
     'user.apps.SampleloginConfig',
     'django.contrib.auth',

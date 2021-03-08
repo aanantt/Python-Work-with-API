@@ -39,7 +39,9 @@ urlpatterns = [
     path('api/current/user/posts', user_views.UserPostList().as_view(), name='current-user-post'),
     path('api/follow/<int:pk>/', user_views.followingfollow, name='following'),
     path('api/followinglist/', user_views.followinglist, name='followinglist'),
+    path('api/followinglist/<int:pk>/', user_views.other_followinglist, name='other_followinglist'),
     path('api/followerlist/', user_views.followerlist, name='followerlist'),
+    path('api/followerlist/<int:pk>/', user_views.other_followerlist, name='other_followerlist'),
     path('api/comment/<int:id>/', post_views.Comments().as_view(), name='api-comment-get'),
     path('api/post/like/<int:post_id>/', post_views.like_disliked, name="like-disliked"),
 

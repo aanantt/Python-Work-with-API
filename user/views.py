@@ -137,12 +137,36 @@ def followinglist(request):
         l.append(i["following_id"])
     return JsonResponse({
         'following': l
+    })\
+
+@api_view(["GET"])
+def other_followinglist(request, pk):
+    s = User.objects.get(id=pk).following.all().values()
+    print(list(s))
+    l = []
+    for i in list(s):
+        print(i["following_id"])
+        l.append(i["following_id"])
+    return JsonResponse({
+        'following': l
     })
 
 
 @api_view(["GET"])
 def followerlist(request):
     s = request.user.followers.all().values()
+    print(list(s))
+    l = []
+    for i in list(s):
+        print(i["follower_id"])
+        l.append(i["follower_id"])
+    return JsonResponse({
+        'followers': l
+    })
+
+@api_view(["GET"])
+def other_followerlist(request,pk):
+    s = User.objects.get(id=pk).following.all().values()
     print(list(s))
     l = []
     for i in list(s):
