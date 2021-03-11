@@ -4,16 +4,16 @@ from django.contrib.auth.models import User as u, User
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from rest_framework import generics, status, permissions
-from rest_framework.decorators import api_view
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import api_view, authentication_classes
 from django.core import serializers
 from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import UserProfile, File, Follower, Check
+from .models import UserProfile, File, Check, UserFollowing
 from .serializers import UserSerializer, ChangePasswordSerializer, FileSerializers, CurrentUserSerializers, \
-    FollowingList, CheckSeial
-from post.serializer import PostSerializers
+    CheckSeial, ProfileSerializers
 
 
 # for signup
@@ -22,8 +22,11 @@ class UserCreateAPIView(generics.CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = (AllowAny,)
 
+    def perform_create(self, serializer):
+        obj = serializer.save()
+        UserProfile.objects.create(user=obj)
 
-# for updating user's username
+
 class UserUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -56,55 +59,67 @@ class UpdatePassword(APIView):
 
 # image based work
 class UserProfilePicture(APIView):
-    permission_classes = ([IsAuthenticated])
+    # permission_classes = ([IsAuthenticated])
     parser_classes = ([MultiPartParser])
 
-    def get(self, request):
-        try:
-            file = File.objects.get(user=request.user)
-        except File.DoesNotExist:
+    def put(self, request, pk):
+        print(request.data)
+        if 'image' not in request.data:
             return Response(status=status.HTTP_204_NO_CONTENT)
-        serial = FileSerializers(file)
+        f = request.data['image']
+        file1 = UserProfile.objects.get(user=User.objects.get(id=pk))
+        file1.avatar = f
+        file1.save()
+        return Response(status=status.HTTP_201_CREATED)
+
+    # def post(self, request, pk):
+    #     if 'file' not in request.data:
+    #         raise Response(status=status.HTTP_204_NO_CONTENT)
+    #     f = request.data['file']
+    #     file1 = File(user=request.user, file=f)
+    #     file1.save()
+    #     return Response(status=status.HTTP_201_CREATED)
+
+    # def delete(self, request, pk):
+    #     try:
+    #         file = File.objects.get(user=request.user)
+    #     except File.DoesNotExist:
+    #         return Response(status=status.HTTP_204_NO_CONTENT)
+    #     file.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def userDetails(request, pk):
+    user = User.objects.get(id = pk)
+    serial = CurrentUserSerializers(user)
+    if serial:
         return Response(serial.data, status=status.HTTP_200_OK)
-
-    def put(self, request):
-        if 'file' not in request.data:
-            raise Response(status=status.HTTP_204_NO_CONTENT)
-        f = request.data['file']
-        file1 = File.objects.get(user=request.user)
-        file1.file = f
-        file1.save()
-        return Response(status=status.HTTP_201_CREATED)
-
-    def post(self, request):
-        if 'file' not in request.data:
-            raise Response(status=status.HTTP_204_NO_CONTENT)
-        f = request.data['file']
-        file1 = File(user=request.user, file=f)
-        file1.save()
-        return Response(status=status.HTTP_201_CREATED)
-
-    def delete(self, request):
-        try:
-            file = File.objects.get(user=request.user)
-        except File.DoesNotExist:
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        file.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+@api_view(['GET'])
+# @authentication_classes([TokenAuthentication])
+def allUserDetails(request):
+    user = User.objects.all()
+    serial = CurrentUserSerializers(user, many=True)
+    if serial:
+        return Response(serial.data, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+# curl -H "Authorization: Token b2eb41ed04493534120f4633078a2701b1fa4418"  http://127.0.0.1:8000/api/user/
 # current user's post
-class UserPostList(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        try:
-            posts = self.request.user.posts
-        except:
-            Response({"error": "Data not found"}, status=status.HTTP_204_NO_CONTENT)
-
-        serial = PostSerializers(posts, many=True)
-        return Response(serial.data, status=status.HTTP_200_OK)
+# class UserPostList(APIView):
+#     permission_classes = [IsAuthenticated]
+#
+#     def get(self, request):
+#         try:
+#             posts = self.request.user.posts
+#         except:
+#             Response({"error": "Data not found"}, status=status.HTTP_204_NO_CONTENT)
+#
+#         serial = PostSerializers(posts, many=True)
+#         return Response(serial.data, status=status.HTTP_200_OK)
 
 
 class CurrentUserDetail(APIView):
@@ -119,11 +134,14 @@ class CurrentUserDetail(APIView):
 #
 @api_view(['POST', 'PUT'])
 # @permission_required([IsAuthenticated])
-def followingfollow(request, pk):
-    CurrentUser = User.objects.get(id=request.user.id)
-    user = User.objects.get(id=pk)
-    s = Follower.objects.create(following=user, follower=CurrentUser)
-    CurrentUser.following.add(s)
+def followingfollow(request, pk, cpk):
+    #
+    pkuser = User.objects.get(id=pk)
+    cpkuser = User.objects.get(id=cpk)
+    # pkuser.follower.add(Follower.objects.create(follower=cpkuser))
+    # cpkuser.following.add(Following.objects.create(following=pkuser))
+    UserFollowing.objects.create(follower_user_id=pkuser,
+                                 following_user_id=cpkuser)
     return Response(status=status.HTTP_201_CREATED)
 
 
@@ -137,7 +155,8 @@ def followinglist(request):
         l.append(i["following_id"])
     return JsonResponse({
         'following': l
-    })\
+    })
+
 
 @api_view(["GET"])
 def other_followinglist(request, pk):
@@ -164,8 +183,9 @@ def followerlist(request):
         'followers': l
     })
 
+
 @api_view(["GET"])
-def other_followerlist(request,pk):
+def other_followerlist(request, pk):
     s = User.objects.get(id=pk).following.all().values()
     print(list(s))
     l = []

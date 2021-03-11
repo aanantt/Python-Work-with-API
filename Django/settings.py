@@ -35,17 +35,18 @@ ALLOWED_HOSTS = [
 REST_FRAMEWORK = {
     'DATETIME_FORMAT': '%s000',
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ],
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.IsAuthenticated',
-    # ]
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
 }
 INSTALLED_APPS = [
     'post.apps.PostConfig',
     'django.contrib.admin',
-  #  'widget_tweaks',
+    #  'widget_tweaks',
     'rest_framework',
+    'rest_framework.authtoken',
     'user.apps.SampleloginConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -2,7 +2,8 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.fields import CurrentUserDefault
 
-from .models import UserProfile, File, Follower, Check
+from .models import UserProfile, File, Check, UserFollowing
+
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -16,7 +17,14 @@ class UserSerializer(serializers.ModelSerializer):
         user = super(UserSerializer, self).create(validated_data)
         user.set_password(validated_data['password'])
         user.save()
+
         return user
+
+
+class FollowS(serializers.ModelSerializer):
+    class Meta:
+        model = UserFollowing
+        fields = '__all__'
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -28,25 +36,23 @@ class ChangePasswordSerializer(serializers.Serializer):
 class ProfileSerializers(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = "__all__"
+        fields = '__all__'
+
+
+class CurrentUserSerializers(serializers.ModelSerializer):
+    avatar = serializers.CharField(source="userprofile.avatar")
+    followers = FollowS(read_only=True, many=True)
+    following = FollowS(read_only=True, many=True)
+
+    class Meta:
+        model = User
+        fields = ['id', 'avatar', 'username', 'followers', 'following', 'date_joined','email']
 
 
 class FileSerializers(serializers.ModelSerializer):
     class Meta:
         model = File
         fields = "__all__"
-
-
-class CurrentUserSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = "__all__"
-
-
-class FollowingList(serializers.ModelSerializer):
-    class Meta:
-        model = Follower
-        fields = '__all__'
 
 
 class CheckSeial(serializers.ModelSerializer):

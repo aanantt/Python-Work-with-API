@@ -18,6 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
+from rest_framework.authtoken.views import obtain_auth_token
 from post import views as post_views
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from user import views as user_views
@@ -25,8 +26,11 @@ from user import views as user_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', user_views.home),
+    path('api/login/',obtain_auth_token,name = 'login'),
     path('api/check/', user_views.checkAPI, name="check"),
-    path('api/user/profile/image/', user_views.UserProfilePicture().as_view(), name='image'),
+    path('api/user/<int:pk>/', user_views.userDetails, name="user"),
+    path('api/user/', user_views.allUserDetails, name="alluser"),
+    path('api/user/profile/image/<int:pk>/', user_views.UserProfilePicture().as_view(), name='image'),
     path('api/user/signup/', user_views.UserCreateAPIView().as_view(), name='signup-api'),
     path('api/user/update/<int:pk>/', user_views.UserUpdateAPIView().as_view(), name='user-update-api'),
     path('api/token/', TokenObtainPairView().as_view(), name='token'),
@@ -36,8 +40,8 @@ urlpatterns = [
     path('api/post/rud/<int:pk>/', post_views.PostRUD().as_view(), name='api'),
     path('api/post/images/<int:pk>/', post_views.PostImageList().as_view(), name='api-post-image'),
     path('api/post/create/', post_views.PostCreate().as_view(), name='api'),
-    path('api/current/user/posts', user_views.UserPostList().as_view(), name='current-user-post'),
-    path('api/follow/<int:pk>/', user_views.followingfollow, name='following'),
+    # path('api/current/user/posts', user_views.UserPostList().as_view(), name='current-user-post'),
+    path('api/follow/<int:pk>/<int:cpk>/', user_views.followingfollow, name='following'),
     path('api/followinglist/', user_views.followinglist, name='followinglist'),
     path('api/followinglist/<int:pk>/', user_views.other_followinglist, name='other_followinglist'),
     path('api/followerlist/', user_views.followerlist, name='followerlist'),
