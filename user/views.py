@@ -202,4 +202,4 @@ def other_followerlist(request, pk):
 
 def home(request):
 
-    return render(request, "user/home.html", {'user': user})
+    return render(request, "user/home.html")
