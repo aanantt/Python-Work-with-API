@@ -27,7 +27,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', user_views.home),
     path('api/login/',obtain_auth_token,name = 'login'),
-    path('api/check/', user_views.checkAPI, name="check"),
     path('api/user/<int:pk>/', user_views.userDetails, name="user"),
     path('api/user/password/', user_views.UpdatePassword().as_view(), name="update password"),
     path('api/user/', user_views.allUserDetails, name="alluser"),

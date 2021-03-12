@@ -61,6 +61,7 @@ class CurrentUserSerializers(serializers.ModelSerializer):
         model = User
         fields = ['id', 'avatar', 'username', 'followers', 'following', 'date_joined','email']
 
+# heroku addons:add heroku-postgresql:dev
 
 class FileSerializers(serializers.ModelSerializer):
     class Meta:
@@ -68,7 +69,4 @@ class FileSerializers(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class CheckSeial(serializers.ModelSerializer):
-    class Meta:
-        model = Check
-        fields = "__all__"
+

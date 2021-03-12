@@ -12,8 +12,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import UserProfile, File, Check, UserFollowing
-from .serializers import UserSerializer, ChangePasswordSerializer, FileSerializers, CurrentUserSerializers, \
-    CheckSeial, ProfileSerializers
+from .serializers import UserSerializer, ChangePasswordSerializer, FileSerializers, CurrentUserSerializers, ProfileSerializers
 
 
 # for signup
@@ -198,17 +197,9 @@ def other_followerlist(request, pk):
     })
 
 
-@api_view(["GET"])
-def checkAPI(request):
-    Check.objects.create(name="Anant", phone="1234567890", )
-    check = Check.objects.all()
-    serial = CheckSeial(check, many=True)
-    if serial:
-        return Response(serial.data, status=status.HTTP_200_OK)
-    return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 
 def home(request):
-    user = User.objects.get(id=2)
-    print(user)
+
     return render(request, "user/home.html", {'user': user})
