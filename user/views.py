@@ -52,7 +52,7 @@ class UpdatePassword(APIView):
             self.object.set_password(serializer.data.get("new_password"))
             self.object.save()
             update_session_auth_hash(request, self.object)
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -62,12 +62,13 @@ class UserProfilePicture(APIView):
     # permission_classes = ([IsAuthenticated])
     parser_classes = ([MultiPartParser])
 
-    def put(self, request, pk):
+    def put(self, request):
         print(request.data)
         if 'image' not in request.data:
             return Response(status=status.HTTP_204_NO_CONTENT)
         f = request.data['image']
-        file1 = UserProfile.objects.get(user=User.objects.get(id=pk))
+        file1 = UserProfile.objects.get(user=request.user)
+        print(file1)
         file1.avatar = f
         file1.save()
         return Response(status=status.HTTP_201_CREATED)
@@ -91,7 +92,7 @@ class UserProfilePicture(APIView):
 
 @api_view(['GET'])
 def userDetails(request, pk):
-    user = User.objects.get(id = pk)
+    user = User.objects.get(id=pk)
     serial = CurrentUserSerializers(user)
     if serial:
         return Response(serial.data, status=status.HTTP_200_OK)
@@ -106,6 +107,7 @@ def allUserDetails(request):
     if serial:
         return Response(serial.data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 # curl -H "Authorization: Token b2eb41ed04493534120f4633078a2701b1fa4418"  http://127.0.0.1:8000/api/user/
 # current user's post
@@ -134,14 +136,13 @@ class CurrentUserDetail(APIView):
 #
 @api_view(['POST', 'PUT'])
 # @permission_required([IsAuthenticated])
-def followingfollow(request, pk, cpk):
+def followingfollow(request, pk):
     #
     pkuser = User.objects.get(id=pk)
-    cpkuser = User.objects.get(id=cpk)
     # pkuser.follower.add(Follower.objects.create(follower=cpkuser))
     # cpkuser.following.add(Following.objects.create(following=pkuser))
-    UserFollowing.objects.create(follower_user_id=pkuser,
-                                 following_user_id=cpkuser)
+    UserFollowing.objects.create(follower_user_id=request.user,
+                                 following_user_id=pkuser)
     return Response(status=status.HTTP_201_CREATED)
 
 

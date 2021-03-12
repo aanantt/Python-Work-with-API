@@ -12,9 +12,10 @@ class CommentSerializer(serializers.ModelSerializer):
         model = PostComment
         fields = '__all__'
 
-    def save(self, **kwargs):
-        kwargs["user"] = self.fields["user"].get_default()
-        return super().save(**kwargs)
+    # def save(self, **kwargs):
+    #     print(kwargs)
+    #     kwargs["user"] = self.fields["user"].get_default()
+    #     return super().save(**kwargs)
 
 
 class PostImageSerializer(serializers.ModelSerializer):
@@ -23,10 +24,18 @@ class PostImageSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class PostSerializers(serializers.HyperlinkedModelSerializer):
-    author = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
-    files = PostImageSerializer(source='postimage_set', many=True, read_only=True)
+class LikeSerializer(serializers.ModelSerializer):
+    likes = serializers.CharField(source='user__username')
 
     class Meta:
         model = Post
-        fields = ('id', 'text', 'author', 'likes', 'date_posted', 'files')
+        fields = ('likes',)
+
+
+class PostSerializers(serializers.ModelSerializer):
+    author = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
+    images = PostImageSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Post
+        fields = ('id', 'text', 'author', 'likes', 'date_posted', 'images')

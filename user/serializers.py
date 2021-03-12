@@ -17,8 +17,21 @@ class UserSerializer(serializers.ModelSerializer):
         user = super(UserSerializer, self).create(validated_data)
         user.set_password(validated_data['password'])
         user.save()
-
         return user
+
+
+    def update(self, instance, validated_data):
+        user = self.context['request'].user
+
+        if user.pk != instance.pk:
+            raise serializers.ValidationError({"authorize": "You dont have permission for this user."})
+
+        # instance.first_name = validated_data['first_name']
+        # instance.last_name = validated_data['last_name']
+        # instance.email = validated_data['email']
+        instance.username = validated_data['username']
+        instance.save()
+        return instance
 
 
 class FollowS(serializers.ModelSerializer):
