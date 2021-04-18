@@ -87,12 +87,12 @@ WSGI_APPLICATION = 'Django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -103,7 +103,17 @@ DATABASES = {
 #         'PORT': '5432'
 #     }
 # }
-# Password validation
+DATABASES = {
+   'default': {
+   'ENGINE': 'django.db.backends.postgresql_psycopg2',
+   'NAME': os.environ.get('DBNAME', ''),
+   'USER': os.environ.get('DBUSER', ''),
+   'PASSWORD': os.environ.get('DBPASS', ''),
+   'HOST': os.environ.get('DBHOST', ''),
+   'PORT': '5432',
+  }
+}
+Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -144,3 +154,5 @@ LOGIN_URL = 'login'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 # django_heroku.settings(locals())
+
+# ~/.bashrc
