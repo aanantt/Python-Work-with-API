@@ -104,16 +104,16 @@ WSGI_APPLICATION = 'Django.wsgi.application'
 #     }
 # }
 DATABASES = {
-   'default': {
-   'ENGINE': 'django.db.backends.postgresql_psycopg2',
-   'NAME': os.environ.get('DBNAME', ''),
-   'USER': os.environ.get('DBUSER', ''),
-   'PASSWORD': os.environ.get('DBPASS', ''),
-   'HOST': os.environ.get('DBHOST', ''),
-   'PORT': '5432',
-  }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('DBNAME', ''),
+        'USER': 'aanantt@workwithapidatabase',
+        'PASSWORD': os.environ.get('DBPASS', ''),
+        'HOST': "workwithapidatabase.postgres.database.azure.com",
+        'PORT': '5432',
+    }
 }
-Password validation
+# Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -147,12 +147,26 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 LOGIN_REDIRECT_URL = "home"
 LOGIN_URL = 'login'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'django_on_azure.backend.AzureMediaStorage'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
 # django_heroku.settings(locals())
 
 # ~/.bashrc
+# dbname='{your_database}' user='aanantt@workwithapidatabase' host='workwithapidatabase.postgres.database.azure.com' password='{your_password}' port='5432' sslmode='true'
+
+AZURE_STORAGE_KEY = os.environ.get('AZURE_STORAGE_KEY', False)
+AZURE_ACCOUNT_NAME = "demo"  # your account name
+AZURE_MEDIA_CONTAINER = os.environ.get('AZURE_MEDIA_CONTAINER', 'media')
+AZURE_STATIC_CONTAINER = os.environ.get('AZURE_STATIC_CONTAINER', 'static')
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'  # Files URL
+MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{AZURE_MEDIA_CONTAINER}/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# any static paths you want to publish
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'demo', 'static')
+]
