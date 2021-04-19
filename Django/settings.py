@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'post.apps.PostConfig',
     'django.contrib.admin',
     #  'widget_tweaks',
+    'storages',
     'rest_framework',
     'rest_framework.authtoken',
     'user.apps.SampleloginConfig',
@@ -103,16 +104,25 @@ WSGI_APPLICATION = 'Django.wsgi.application'
 #         'PORT': '5432'
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DBNAME', ''),
-        'USER': 'aanantt@workwithapidatabase',
-        'PASSWORD': os.environ.get('DBPASS', ''),
-        'HOST': "workwithapidatabase.postgres.database.azure.com",
-        'PORT': '5432',
+if os.environ.get('DBNAME','')!='':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ.get('DBNAME'),
+            'USER': 'aanantt@workwithapidatabase',
+            'PASSWORD': os.environ.get('DBPASS', ''),
+            'HOST': "workwithapidatabase.postgres.database.azure.com",
+            'PORT': '5432',
+        }
     }
-}
+else:
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+       }
+    }
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -158,10 +168,10 @@ DEFAULT_FILE_STORAGE = 'django_on_azure.backend.AzureMediaStorage'
 
 # ~/.bashrc
 # dbname='{your_database}' user='aanantt@workwithapidatabase' host='workwithapidatabase.postgres.database.azure.com' password='{your_password}' port='5432' sslmode='true'
-
-AZURE_STORAGE_KEY = os.environ.get('AZURE_STORAGE_KEY', False)
-AZURE_ACCOUNT_NAME = "demo"  # your account name
-AZURE_MEDIA_CONTAINER = os.environ.get('AZURE_MEDIA_CONTAINER', 'media')
+# DefaultEndpointsProtocol=https;AccountName=workwithapimedia;AccountKey=43rBfSussln03p5wJVtfgHGvlBe/QeCm3aznFY3CyrtkQeFzIupfMBrkHVpE90vQawk+LmlBbaCSZKuhEatGYg==;EndpointSuffix=core.windows.net
+AZURE_STORAGE_KEY = '43rBfSussln03p5wJVtfgHGvlBe/QeCm3aznFY3CyrtkQeFzIupfMBrkHVpE90vQawk+LmlBbaCSZKuhEatGYg=='
+AZURE_ACCOUNT_NAME = "workwithapimedia"  # your account name
+AZURE_MEDIA_CONTAINER = os.environ.get('AZURE_MEDIA_CONTAINER', 'blob')
 AZURE_STATIC_CONTAINER = os.environ.get('AZURE_STATIC_CONTAINER', 'static')
 AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'  # Files URL
 MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{AZURE_MEDIA_CONTAINER}/'
