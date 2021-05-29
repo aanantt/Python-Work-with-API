@@ -6,6 +6,6 @@ db.sqlite3
 dump.json
 .azure
 .vscode
-post
+post/
 custom_storage
 getting-started/*
