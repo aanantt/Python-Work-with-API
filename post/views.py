@@ -15,20 +15,14 @@ from .serializer import PostSerializers, CommentSerializer, PostImageSerializer,
 import pyrebase
 
 # for signup
-conf = ''
-# with open("/home/anant/PycharmProjects/API/Django/firebase.json") as f:
-#     conf = f.read()
 with open("/home/anant/PycharmProjects/API/Django/firebase.json", "r") as read_file:
     j = json.load(read_file)
-# j = json.loads("/home/anant/PycharmProjects/API/Django/firebase.json")
 
-config = j
-firebase = pyrebase.initialize_app(config)
+firebase = pyrebase.initialize_app(j)
 storage = firebase.storage()
 
 
-# @permission_required([IsAuthenticated])
-# @login_required
+@permission_required([IsAuthenticated])
 @api_view(['POST', 'PUT'])
 def like_disliked(request, post_id):
     post = Post.objects.get(id=post_id)

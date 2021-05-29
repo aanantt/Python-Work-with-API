@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import permission_required
@@ -20,18 +21,11 @@ import pyrebase
 
 # for signup
 
-config = {
-    "apiKey": "AIzaSyCfUOdrVT-vLFnkh8XP7SnNv9EhvNUtdG8",
-    "authDomain": "django-api-9613a.firebaseapp.com",
-    "projectId": "django-api-9613a",
-    "storageBucket": "django-api-9613a.appspot.com",
-    "messagingSenderId": "1064374309879",
-    "appId": "1:1064374309879:web:6836e807ba34a5f28c94f2",
-    "measurementId": "G-BC9TD052LS",
-    "databaseURL": ""
-}
+with open("/home/anant/PycharmProjects/API/Django/firebase.json", "r") as read_file:
+    j = json.load(read_file)
 
-firebase = pyrebase.initialize_app(config)
+
+firebase = pyrebase.initialize_app(j)
 storage = firebase.storage()
 
 
@@ -143,9 +137,8 @@ class CurrentUserDetail(APIView):
 
 #
 @api_view(['POST', 'PUT'])
-# @permission_required([IsAuthenticated])
+@permission_required([IsAuthenticated])
 def followingfollow(request, pk):
-    #
     pkuser = User.objects.get(id=pk)
     UserFollowing.objects.create(follower_user_id=request.user,
                                  following_user_id=pkuser)
