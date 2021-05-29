@@ -7,5 +7,6 @@ dump.json
 .azure
 .vscode
 firebase.json
+media/
 custom_storage
 getting-started/*
