@@ -4,4 +4,7 @@ staticfiles
 .env
 db.sqlite3
 dump.json
+.azure
+.vscode
+custom_storage
 getting-started/*

@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'u!ndu2%l@yrb%)1!+5yq-w2=aj@d0#%#an)i272yqqh)3et&&x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '*'
@@ -104,7 +104,7 @@ WSGI_APPLICATION = 'Django.wsgi.application'
 #         'PORT': '5432'
 #     }
 # }
-if os.environ.get('DBNAME','')!='':
+if os.environ.get('DBNAME', '') != '':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -117,10 +117,10 @@ if os.environ.get('DBNAME','')!='':
     }
 else:
     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-       }
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
 
 # Password validation
@@ -161,22 +161,16 @@ USE_TZ = True
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 LOGIN_REDIRECT_URL = "home"
 LOGIN_URL = 'login'
-DEFAULT_FILE_STORAGE = 'django_on_azure.backend.AzureMediaStorage'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # MEDIA_URL = '/media/'
-# django_heroku.settings(locals())
+# STATIC_URL = '/static/'
+DEFAULT_FILE_STORAGE = 'custom_storage.custom_azure.AzureMediaStorage'
+STATICFILES_STORAGE = 'custom_storage.custom_azure.AzureStaticStorage'
 
-# ~/.bashrc
-# dbname='{your_database}' user='aanantt@workwithapidatabase' host='workwithapidatabase.postgres.database.azure.com' password='{your_password}' port='5432' sslmode='true'
-# DefaultEndpointsProtocol=https;AccountName=workwithapimedia;AccountKey=43rBfSussln03p5wJVtfgHGvlBe/QeCm3aznFY3CyrtkQeFzIupfMBrkHVpE90vQawk+LmlBbaCSZKuhEatGYg==;EndpointSuffix=core.windows.net
-AZURE_STORAGE_KEY = '43rBfSussln03p5wJVtfgHGvlBe/QeCm3aznFY3CyrtkQeFzIupfMBrkHVpE90vQawk+LmlBbaCSZKuhEatGYg=='
-AZURE_ACCOUNT_NAME = "workwithapimedia"  # your account name
-AZURE_MEDIA_CONTAINER = os.environ.get('AZURE_MEDIA_CONTAINER', 'blob')
-AZURE_STATIC_CONTAINER = os.environ.get('AZURE_STATIC_CONTAINER', 'static')
-AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'  # Files URL
-MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{AZURE_MEDIA_CONTAINER}/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# any static paths you want to publish
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'demo', 'static')
-]
+STATIC_LOCATION = "static"
+MEDIA_LOCATION = "/media/"
+
+AZURE_ACCOUNT_NAME = "workwithapimedia"
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'

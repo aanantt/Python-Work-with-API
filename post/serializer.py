@@ -1,16 +1,23 @@
 from rest_framework import serializers
 from rest_framework.fields import CurrentUserDefault
 
-from .models import Post, PostComment, PostImage
+from .models import Post, PostComment, PostImage, PostReply
+
+
+class ReplySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostReply
+        fields = "__all__"
 
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
     id = serializers.IntegerField(required=False)
+    replies = ReplySerializer(many=True)  # ForeignKey vale ka related name aayega
 
     class Meta:
         model = PostComment
-        fields = '__all__'
+        fields = ('id', 'user', 'body', 'date_posted', 'replies')
 
     # def save(self, **kwargs):
     #     print(kwargs)

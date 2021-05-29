@@ -1,12 +1,15 @@
-from django.conf import settings
 from storages.backends.azure_storage import AzureStorage
 
 
 class AzureMediaStorage(AzureStorage):
-    account_name = settings.AZURE_ACCOUNT_NAME
-    account_key = settings.AZURE_STORAGE_KEY
-    azure_container = settings.AZURE_MEDIA_CONTAINER
+    account_name = 'workwithapimedia'  # Must be replaced by your <storage_account_name>
+    account_key = 'oxSy/usjeW7q6+TUG0GHbx1nbzT3K7b9L2kCtUlY3YVvKo0DfHSAopGZw6PMZxqABWRU8GVKoR/4QNxIh3CM6A=='  # Must be replaced by your <storage_account_key>
+    azure_container = 'media'
     expiration_secs = None
-    overwrite_files = True
 
-    # DefaultEndpointsProtocol=https;AccountName=workwithapimedia;AccountKey=43rBfSussln03p5wJVtfgHGvlBe/QeCm3aznFY3CyrtkQeFzIupfMBrkHVpE90vQawk+LmlBbaCSZKuhEatGYg==;EndpointSuffix=core.windows.net
+
+class AzureStaticStorage(AzureStorage):
+    account_name = 'workwithapimedia'  # Must be replaced by your storage_account_name
+    account_key = 'oxSy/usjeW7q6+TUG0GHbx1nbzT3K7b9L2kCtUlY3YVvKo0DfHSAopGZw6PMZxqABWRU8GVKoR/4QNxIh3CM6A=='  # Must be replaced by your <storage_account_key>
+    azure_container = 'static'
+    expiration_secs = None
