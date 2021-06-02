@@ -1,5 +1,6 @@
 import datetime
 import json
+import os
 
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import permission_required
@@ -21,7 +22,7 @@ import pyrebase
 
 # for signup
 
-with open("/home/anant/PycharmProjects/API/Django/firebase.json", "r") as read_file:
+with open(f"{os.getcwd()}/firebase.json", "r") as read_file:
     j = json.load(read_file)
 
 

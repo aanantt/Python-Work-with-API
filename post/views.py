@@ -11,11 +11,11 @@ from rest_framework.viewsets import ModelViewSet
 import json
 from .models import Post, PostComment, PostImage, PostReply
 from .serializer import PostSerializers, CommentSerializer, PostImageSerializer, ReplySerializer
-
+import os
 import pyrebase
 
 # for signup
-with open("/home/anant/PycharmProjects/API/Django/firebase.json", "r") as read_file:
+with open(f"{os.getcwd()}/firebase.json", "r") as read_file:
     j = json.load(read_file)
 
 firebase = pyrebase.initialize_app(j)

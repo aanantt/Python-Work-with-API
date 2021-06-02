@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
+import json
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'u!ndu2%l@yrb%)1!+5yq-w2=aj@d0#%#an)i272yqqh)3et&&x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '*'
@@ -43,7 +43,6 @@ REST_FRAMEWORK = {
 INSTALLED_APPS = [
     'post.apps.PostConfig',
     'django.contrib.admin',
-    #  'widget_tweaks',
     'storages',
     'rest_framework',
     'rest_framework.authtoken',
@@ -104,14 +103,17 @@ WSGI_APPLICATION = 'Django.wsgi.application'
 #         'PORT': '5432'
 #     }
 # }
-if os.environ.get('DBNAME', '') != '':
+with open(f"{os.getcwd()}/database.json", "r") as read_file:
+    j = json.load(read_file)
+
+if not DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.environ.get('DBNAME'),
-            'USER': 'aanantt@workwithapidatabase',
-            'PASSWORD': os.environ.get('DBPASS', ''),
-            'HOST': "workwithapidatabase.postgres.database.azure.com",
+            'NAME': j["name"],
+            'USER': j["user"],
+            'PASSWORD': j["password"],
+            'HOST': j["host"],
             'PORT': '5432',
         }
     }
