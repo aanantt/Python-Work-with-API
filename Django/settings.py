@@ -168,8 +168,9 @@ LOGIN_URL = 'login'
 STATIC_URL = '/static/'
 # DEFAULT_FILE_STORAGE = 'custom_storage.custom_azure.AzureMediaStorage'
 # STATICFILES_STORAGE = 'custom_storage.custom_azure.AzureStaticStorage'
-
-STATIC_LOCATION = "static"
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+# STATIC_LOCATION = "static"
 # MEDIA_LOCATION = "/media/"
 
 # AZURE_ACCOUNT_NAME = "workwithapimedia"
