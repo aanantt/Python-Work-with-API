@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    # 'django.contrib.staticfiles',
+    'django.contrib.staticfiles',
 ]
 
 MIDDLEWARE = [
@@ -165,11 +165,11 @@ LOGIN_REDIRECT_URL = "home"
 LOGIN_URL = 'login'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # MEDIA_URL = '/media/'
-# STATIC_URL = '/static/'
+STATIC_URL = '/static/'
 # DEFAULT_FILE_STORAGE = 'custom_storage.custom_azure.AzureMediaStorage'
 # STATICFILES_STORAGE = 'custom_storage.custom_azure.AzureStaticStorage'
 
-# STATIC_LOCATION = "static"
+STATIC_LOCATION = "static"
 # MEDIA_LOCATION = "/media/"
 
 # AZURE_ACCOUNT_NAME = "workwithapimedia"
