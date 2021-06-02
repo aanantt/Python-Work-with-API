@@ -43,7 +43,7 @@ REST_FRAMEWORK = {
 INSTALLED_APPS = [
     'post.apps.PostConfig',
     'django.contrib.admin',
-    'storages',
+    # 'storages',
     'rest_framework',
     'rest_framework.authtoken',
     'user.apps.SampleloginConfig',
