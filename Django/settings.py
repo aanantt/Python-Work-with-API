@@ -58,6 +58,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -168,6 +169,7 @@ LOGIN_URL = 'login'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'Django/static/')
 ]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # DEFAULT_FILE_STORAGE = 'custom_storage.custom_azure.AzureMediaStorage'
 # STATICFILES_STORAGE = 'custom_storage.custom_azure.AzureStaticStorage'
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
