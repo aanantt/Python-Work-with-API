@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'u!ndu2%l@yrb%)1!+5yq-w2=aj@d0#%#an)i272yqqh)3et&&x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '*'
@@ -103,10 +103,10 @@ WSGI_APPLICATION = 'Django.wsgi.application'
 #         'PORT': '5432'
 #     }
 # }
-with open(f"{os.getcwd()}/database.json", "r") as read_file:
-    j = json.load(read_file)
 
 if not DEBUG:
+    with open(f"{os.getcwd()}/database.json", "r") as read_file:
+        j = json.load(read_file)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -159,17 +159,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-# STATIC_URL = '/static/'
+STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 LOGIN_REDIRECT_URL = "home"
 LOGIN_URL = 'login'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # MEDIA_URL = '/media/'
-STATIC_URL = '/static/'
-# DEFAULT_FILE_STORAGE = 'custom_storage.custom_azure.AzureMediaStorage'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'Django/static/')
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # DEFAULT_FILE_STORAGE = 'custom_storage.custom_azure.AzureMediaStorage'
 # STATICFILES_STORAGE = 'custom_storage.custom_azure.AzureStaticStorage'
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+# STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 # STATIC_LOCATION = "static"
 # MEDIA_LOCATION = "/media/"
 

@@ -1,57 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
+    {% load static %}
+    <!-- basic -->
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Work With API</title>
-    <style>
-        h1 {
-            font-family: 'Luckiest Guy', cursive;
-            font-size: 60px;
-        }
-
-        h2 {
-            font-family: 'Lobster', cursive;
-        }
-
-        h3 {
-            font-family: 'Lobster', cursive;
-        }
-    </style>
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>Rest APIs</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+    <!-- style css -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="{% static 'responsive.css' %}">
+    <!-- fevicon -->
+    <link rel="icon" href="images/fevicon.png" type="image/gif"/>
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="{% static 'jquery.mCustomScrollbar.min.css' %}">
+    <!-- Tweaks for older IEs-->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
+          media="screen">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 </head>
-
-<body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-        crossorigin="anonymous"></script>
-    <div class="container text-center">
-        <h1 class="mt-5">
-            Work With API
-        </h1>
-        <div class="row">
-            <h2>
-                <a href='https://documenter.getpostman.com/view/11740659/Tz5p7JYg'>Documentation</a>
-            </h2>
-        </div>
+<!-- body -->
+<body class="main-layout">
+{% load static %}
+<!-- loader  -->
+<!-- <div class="loader_bg">
+   <div class="loader"><img src="images/loading.gif" alt="#" /></div>
+</div> -->
+<!-- end loader -->
+<!-- header -->
+<header>
+    <!-- header inner -->
+    <div class="header">
         <div class="container">
-            <h3 class="mt-5">
-                Due to limited resources, only certain requests can be made in a day. If APIs are not working, Please
-                try next day or </h3>
-            <h3>
-                <a href="mailto:anantgithub@gmail.com">contact me</a>
-            </h3>
+            <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
+                    <div class="full">
+                        <div class="center-desk">
+                            <!-- <div class="logo">
+                               <a href="index.html"><img src="images/logo.png" alt="#" /></a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                    <nav class="navigation navbar navbar-expand-md navbar-dark ">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false"
+                                aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarsExample04">
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="#">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#intro"> About </a>
+                                </li>
 
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#contact">Contact</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
-</body>
+</header>
+<!-- end header inner -->
+<!-- end header -->
+<!-- banner -->
+<section class="banner_main">
+    <div class="container">
+        <div class="row d_flex">
+            <div class="col-md-5">
+                <div class="text-bg">
+                    <h1>Work with Rest APIs</h1>
+                    <span></span>
+                    <p>An application programming interface (API) is a connection between computers or between computer
+                        programs. It is a type of software interface, offering a service to other pieces of
+                        software </p>
+                    <h2>
+                        <a href='https://documenter.getpostman.com/view/11740659/Tz5p7JYg'>Documentation</a>
+                    </h2>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="text-img">
+                    <figure><img src="{% static 'img.png' %}"/></figure>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end banner -->
+<!-- Hosting -->
+<div id="" class="hosting">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="intro" class="titlepage">
+                    <h2>How the API works </h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="web_hosting">
+                    <figure><img src="{% static 'web.jpg' %}" alt="#"/></figure>
+                    <p>APIs work by sharing data and information between applications, systems, and devices—making it
+                        possible for these things to talk with each other.</p>
+                    <a href="https://blog.postman.com/intro-to-apis-what-is-an-api/" style="margin-bottom:40px;">Read
+                        more</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end Hosting -->
 
+<!-- why -->
+<div id="why" class="why">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="titlepage">
+                    <h2>Why use APIs? Reasons to use APIs </h2>
+                    <P>the availability of the raw data has made it possible for 3rd party developers to release phone
+                        apps that display the same data with custom presentation. Many other API’s are built with the
+                        intentions to allow 3rd party developers to build interesting applications using company
+                        data. </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <div id="box_ho" class="why-box">
+                    <i><img src="{% static 'why1.png' %}" alt="#"/></i>
+                    <h3>Integration with internal and external systems</h3>
+                    <p>One of the top reasons developers use APIs is to integrate one system with another system. For
+                        example, if you want your Customer Relationship Management (CRM) system to integrate with your
+                        Marketing Automation system, </p>
+                </div>
+                <a class="read_more bg" href="https://blog.postman.com/intro-to-apis-what-is-an-api/">Read More</a>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <div class="why-box">
+                    <i><img src="{% static 'why2.png' %}" alt="#"/></i>
+                    <h3>Speeding up software and system development</h3>
+                    <p>APIs allow developers to code and deliver functionality as microservices, instead of big,
+                        monolithic applications. By breaking this functionality up, developers can actually speed up
+                        software development and system development by eliminating </p>
+                </div>
+                <a class="read_more bg" href="https://blog.postman.com/intro-to-apis-what-is-an-api/">Read More</a>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <div class="why-box">
+                    <i><img src="{% static 'why3.png' %}" alt="#"/></i>
+                    <h3>Improving organizational security and governance</h3>
+                    <p>APIs can be used to improve organizational security. For example, APIs are often used to power
+                        Single Sign-On, which is the ability for users to use one username and password to login into
+                        multiple systems. This helps avoid the dreaded pile of </p>
+                </div>
+                <a class="read_more bg" href="https://blog.postman.com/intro-to-apis-what-is-an-api/">Read More</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end why -->
+
+<!--  footer -->
+<footer>
+    <div class="footer ">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 offset-md-1">
+                    <div id="contact" class="cont contact">
+                        <h3>
+                            <a class="mail" href="mailto:anantgithub@gmail.com">contact me</a>
+
+                        </h3>
+
+                        <span>Feel free to contct us for any sort of doubt! </span>
+                        <p>
+                            Due to limited resources, only certain requests can be made in a day. If APIs are not
+                            working, Please
+                            try later or contact us .
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>© DG 2021. </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+<!-- end footer -->
+<!-- Javascript files-->
+<script src="{% static 'jquery.min.js' %}"></script>
+<script src="{% static 'popper.min.js' %}"></script>
+<script src="{% static 'bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'jquery-3.0.0.min.js' %}"></script>
+<script src="{% static 'plugin.js' %}"></script>
+<!-- sidebar -->
+<script src="{% static 'jquery.mCustomScrollbar.concat.min.js' %}"></script>
+<script src="{% static 'custom.js' %}"></script>
+<script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+</body>
 </html>
