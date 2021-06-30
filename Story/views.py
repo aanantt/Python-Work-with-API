@@ -45,11 +45,4 @@ class CurrentUserStoryAPI(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
-# @api_view(["GET"])
-# def getFollowingStory(request):
-#     following = request.user.following.all()
-#     stories = []
-#     for i in following:
-
-
 
