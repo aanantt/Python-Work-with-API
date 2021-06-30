@@ -18,7 +18,7 @@
 @import url(animate.min.css);
 @import url(normalize.css);
 @import url(meanmenu.css);
-@import url(owl.carousel.min.css);
+/*@import url(owl.carousel.min.css);*/
 @import url(slick.css);
 @import url(jquery-ui.css);
 @import url(nice-select.css);
@@ -506,7 +506,7 @@ button {
 .read_more:hover {
   background: #8308eb;
   color: #fff;
-} */
+}
 
 
 /** end Services section * */
