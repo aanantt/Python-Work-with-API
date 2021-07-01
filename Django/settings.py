@@ -169,7 +169,7 @@ LOGIN_URL = 'login'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'Django/static/')
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # DEFAULT_FILE_STORAGE = 'custom_storage.custom_azure.AzureMediaStorage'
 # STATICFILES_STORAGE = 'custom_storage.custom_azure.AzureStaticStorage'
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
