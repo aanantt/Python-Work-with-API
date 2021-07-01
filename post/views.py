@@ -14,9 +14,7 @@ from .serializer import PostSerializers, CommentSerializer, PostImageSerializer,
 import os
 import pyrebase
 
-# for signup
-# with open(f"{os.getcwd()}/firebase.json", "r") as read_file:
-#     j = json.load(read_file)
+
 
 j = {
   "apiKey": "AIzaSyCfUOdrVT-vLFnkh8XP7SnNv9EhvNUtdG8",
