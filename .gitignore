@@ -6,7 +6,7 @@ db.sqlite3
 dump.json
 .azure
 .vscode
-firebase.json
+#firebase.json
 database.json
 media/
 custom_storage
