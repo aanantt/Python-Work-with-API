@@ -22,11 +22,22 @@ import pyrebase
 
 # for signup
 
-with open(f"{os.getcwd()}/firebase.json", "r") as read_file:
-    j = json.load(read_file)
+# with open(f"{os.getcwd()}/firebase.json", "r") as read_file:
+#     j = json.load(read_file)
 
+j = {
+  "apiKey": "AIzaSyCfUOdrVT-vLFnkh8XP7SnNv9EhvNUtdG8",
+  "authDomain": "django-api-9613a.firebaseapp.com",
+  "projectId": "django-api-9613a",
+  "storageBucket": "django-api-9613a.appspot.com",
+  "messagingSenderId": "1064374309879",
+  "appId": "1:1064374309879:web:6836e807ba34a5f28c94f2",
+  "measurementId": "G-BC9TD052LS",
+  "databaseURL": ""
+}
 
 firebase = pyrebase.initialize_app(j)
+
 storage = firebase.storage()
 
 
