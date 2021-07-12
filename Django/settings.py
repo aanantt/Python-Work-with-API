@@ -175,7 +175,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # DEFAULT_FILE_STORAGE = 'custom
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 # STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 # STATIC_LOCATION = "static"
-# MEDIA_LOCATION = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_LOCATION = "/media/"
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'freecloudstorageforapis',
+    'API_KEY': '413646862596223',
+    'API_SECRET': 'UEyG7hW99eDrG0YtFsccmToI6Jc',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # AZURE_ACCOUNT_NAME = "workwithapimedia"
 # AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'

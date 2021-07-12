@@ -16,19 +16,7 @@ import pyrebase
 
 
 
-j = {
-  "apiKey": "AIzaSyCfUOdrVT-vLFnkh8XP7SnNv9EhvNUtdG8",
-  "authDomain": "django-api-9613a.firebaseapp.com",
-  "projectId": "django-api-9613a",
-  "storageBucket": "django-api-9613a.appspot.com",
-  "messagingSenderId": "1064374309879",
-  "appId": "1:1064374309879:web:6836e807ba34a5f28c94f2",
-  "measurementId": "G-BC9TD052LS",
-  "databaseURL": ""
-}
-
-firebase = pyrebase.initialize_app(j)
-storage = firebase.storage()
+ 
 
 
 @permission_required([IsAuthenticated])
@@ -56,10 +44,6 @@ class Comments(APIView):
         print(f"Req{request.data.get('body')}")
         post = Post.objects.get(id=id)
         PostComment(body=request.data.get('body'), post=post, user=request.user).save()
-        # serializer = CommentSerializer(data=request.data)
-        # if serializer.is_valid():
-        #     serializer.save()
-        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_201_CREATED)
 
     def delete(self, request, id):
@@ -97,22 +81,15 @@ class PostCreate(APIView):
         images = dict(request.data.lists())["post_image"]
         print(images)
         task = Post.objects.create(text=request.data['text'], author=request.user)
-        # USE models.ImageField IF YOU HAVE AWS, GCP or Azure, right now Iam using Firebase storage
-        # so I will store file name as string in database and file in firebase storage
 
-        # NOTE: Never use this Method in Production mode. It's highly insecure because we can access these files
-        # in frontend without any authentication
-
-        # I didn't find any proper documentation for Using Firebase storage with Django Media Files
-        # that's why I am using this logic
         for image_data in images:
             print(image_data)
-            file_ext = str(image_data).split('.')[1]
-            import datetime
-            file_name = str(self.request.user.id) + "__" + \
-                        str(datetime.datetime.now().isoformat()) + "." + file_ext
-            storage.child("file_data/" + file_name).put(image_data)
-            PostImage.objects.create(post=task, files=f"files/{file_name}")
+            # file_ext = str(image_data).split('.')[1]
+            # import datetime
+            # file_name = str(self.request.user.id) + "__" + \
+            #             str(datetime.datetime.now().isoformat()) + "." + file_ext
+            # storage.child("file_data/" + file_name).put(image_data)
+            PostImage.objects.create(post=task, files=image)
         return Response(status=status.HTTP_201_CREATED)
 
 

@@ -15,16 +15,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(u, on_delete=models.CASCADE)
-    # USE models.ImageField IF YOU HAVE AWS, GCP or Azure, right now Iam using Firebase storage
-    # so I will store file name as string in database and file in firebase storage
-
-    # NOTE: Never use this Method in Production mode as it's highly insecure
-
-    # I didn't find any proper documentation for Using Firebase storage with Django Media Files
-    # that's why I am using this logic
-
-    # avatar = models.ImageField(upload_to="userprofile/", max_length=200, default="userprofile/avatar.png")
-    avatar = models.CharField(max_length=200)
+    avatar = models.ImageField(upload_to="userprofile/", max_length=200, default="userprofile/avatar.png")
 
 
 class File(models.Model):
@@ -41,19 +32,7 @@ class UserFollowing(models.Model):
     following_user_id = models.ForeignKey(u, related_name="followers", on_delete=models.CASCADE)
 
 
-# class Follower(models.Model):
-#     follower = models.ForeignKey(u, related_name='follower', on_delete=models.CASCADE)
-#
-#
-# class Following(models.Model):
-#     following = models.ForeignKey(u, related_name='following', on_delete=models.CASCADE)
-
-# class Meta:
-#     unique_together = ('follower', 'following')
-#
-# def __unicode__(self):
-#     return u'%s follows %s' % (self.follower, self.following)
-
+ 
 
 class Check(models.Model):
     name = models.CharField(max_length=255)
