@@ -11,3 +11,5 @@ ptyprocess==0.6.0
 virtualenv==15.1.0
 whitenoise==5.2.0
 Pyrebase==3.0.27
+cloudinary
+dj3-cloudinary-storage
