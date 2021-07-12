@@ -18,7 +18,6 @@ from rest_framework.views import APIView
 from .models import UserProfile, File, Check, UserFollowing
 from .serializers import UserSerializer, ChangePasswordSerializer, FileSerializers, CurrentUserSerializers, \
     ProfileSerializers
-import pyrebase
 
 # for signup
 

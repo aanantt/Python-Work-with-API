@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'post.apps.PostConfig',
     'django.contrib.admin',
     # 'storages',
+    'cloudinary',
     'rest_framework',
     'rest_framework.authtoken',
     'user.apps.SampleloginConfig',
@@ -94,16 +95,7 @@ WSGI_APPLICATION = 'Django.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'tdvfflzw',
-#         'USER': 'tdvfflzw',
-#         'PASSWORD': 'wPStmakWQApg9X6FCNzVHqpkJX15wKuE',
-#         'HOST': 'drona.db.elephantsql.com',
-#         'PORT': '5432'
-#     }
-# }
+ 
 
 if not DEBUG:
     with open(f"{os.getcwd()}/database.json", "r") as read_file:
@@ -161,22 +153,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 LOGIN_REDIRECT_URL = "home"
 LOGIN_URL = 'login'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# MEDIA_URL = '/media/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'Django/static/')
 ]
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # DEFAULT_FILE_STORAGE = 'custom_storage.custom_azure.AzureMediaStorage'
-# STATICFILES_STORAGE = 'custom_storage.custom_azure.AzureStaticStorage'
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-# STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
-# STATIC_LOCATION = "static"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_LOCATION = "/media/"
+MEDIA_URL = "/media/"
+
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'freecloudstorageforapis',
     'API_KEY': '413646862596223',
@@ -185,7 +171,4 @@ CLOUDINARY_STORAGE = {
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# AZURE_ACCOUNT_NAME = "workwithapimedia"
-# AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
-# STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-# MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
+ 

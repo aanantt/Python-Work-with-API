@@ -12,7 +12,6 @@ import json
 from .models import Post, PostComment, PostImage, PostReply
 from .serializer import PostSerializers, CommentSerializer, PostImageSerializer, ReplySerializer
 import os
-import pyrebase
 
 
 
