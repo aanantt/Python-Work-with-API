@@ -5,7 +5,7 @@ django-timezone-field==4.0
 djangorestframework==3.11.2
 djangorestframework-simplejwt==4.4.0
 gunicorn==20.0.4
-Pillow==8.1.1
+Pillow==9.0.0
 psycopg2==2.8.5
 ptyprocess==0.6.0
 virtualenv==15.1.0
