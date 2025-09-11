@@ -31,3 +31,6 @@ python manage.py runserver
 ## Website - [Go To Website](https://workwithapi.herokuapp.com/)
 ## Screenshot
 ![Screenshot](https://i.ibb.co/FYyM691/Screenshot.png)
+
+
+<!-- Security scan triggered at 2025-09-11 05:44:12 -->
